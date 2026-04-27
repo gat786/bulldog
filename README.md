@@ -58,13 +58,15 @@ GLOBAL OPTIONS:
 There are two options as of now, 
 
 1. scrape
+
     When ran the Scrape option will read the default kubeconfig file present 
     and start scraping the resources present on that cluster and saving it as a
     text output in the `exported_data` directory.
 
-## TODO - configure a way to export to a custom user specified directory
+| TODO - configure a way to export to a custom user specified directory
 
 2. print-config
+  
     Inorder to scrape data from a cluster, this tool requires a scrapeconfig, 
     which if not specified manually, the tool considers that you just want 
     everything to scraped and stored. You can provide a custom scrapeconfig by 
