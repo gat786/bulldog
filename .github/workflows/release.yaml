@@ -1,0 +1,21 @@
+on:
+  push:
+    tags:
+      - v*
+
+name: Build Bulldog and Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: go build
+        id: go-build
+        working-directory: app/
+        run: |
+          go build .
