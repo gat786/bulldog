@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"gat786/bulldog/config"
 	"gat786/bulldog/exporter"
 	"gat786/bulldog/kubernetes"
@@ -12,6 +13,7 @@ import (
 	// "gat786/bulldog/exporter"
 	// "gat786/bulldog/kubernetes"
 
+	"github.com/ghodss/yaml"
 	"github.com/joho/godotenv"
 
 	"github.com/urfave/cli/v3"
@@ -48,6 +50,12 @@ func main() {
 				Name: "print-config",
 				Action: func(ctx context.Context, c *cli.Command) error {
 					logrus.Info("Printing Scrape config as available to bulldog")
+					config := config.LoadConfig()
+					marshalledData, err := yaml.Marshal(config)
+					if err != nil {
+						logrus.Fatal("Error printing config")
+					}
+					fmt.Println(string(marshalledData))
 					return nil
 				},
 			},

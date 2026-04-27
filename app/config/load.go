@@ -5,6 +5,7 @@ import (
 
 	logrus "gat786/bulldog/log"
 	"gat786/bulldog/models"
+
 	yaml "github.com/ghodss/yaml"
 )
 
@@ -25,7 +26,8 @@ func LoadConfig() models.Config {
 			logrus.Errorf("Using Default config file instead")
 			return defaultConfig
 		}
-		var loadedConfigFile models.ConfigFile
+		var loadedConfigFile models.Config
+
 		err = yaml.Unmarshal(configFileBytes, &loadedConfigFile)
 		if err != nil {
 			logrus.Error("Error unmarshalling Config File make sure they are in correct format")
@@ -35,6 +37,6 @@ func LoadConfig() models.Config {
 		}
 		logrus.Debugf("Successfully Loaded supplied configuration at path: %s", configFilePath)
 		logrus.Debugf("Loaded Configuration: %+v", loadedConfigFile)
-		return loadedConfigFile.Config
+		return loadedConfigFile
 	}
 }
