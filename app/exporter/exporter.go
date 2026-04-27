@@ -5,6 +5,7 @@ import (
 	"os"
 
 	logrus "gat786/bulldog/log"
+
 	yaml "github.com/ghodss/yaml"
 )
 
@@ -20,14 +21,17 @@ func dirExists(path string) (bool, error) {
 	return false, err
 }
 
-func ExportYaml(namespaceData interface{}, fileName string) {
+func ExportYaml(
+	namespaceData interface{},
+	fileName string,
+	outputDir string,
+) {
 	marshalledData, err := yaml.Marshal(namespaceData)
 	if err != nil {
 		logrus.Error(err.Error())
 	} else {
 		marshalledString := string(marshalledData)
-		output_dir := GetOutputDir()
-		runOutputDir := fmt.Sprintf("%s/%s", output_dir, RUNTIME_STAMP)
+		runOutputDir := fmt.Sprintf("%s/%s", outputDir, RUNTIME_STAMP)
 		logrus.Info("Writing to directory: ", runOutputDir)
 		checkExists, err := dirExists(runOutputDir)
 		if err != nil {
@@ -52,6 +56,5 @@ func ExportYaml(namespaceData interface{}, fileName string) {
 				logrus.Error("Error writing to file: ", err.Error())
 			}
 		}
-
 	}
 }

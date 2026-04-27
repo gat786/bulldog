@@ -8,12 +8,13 @@ import (
 	"gat786/bulldog/models"
 
 	logrus "gat786/bulldog/log"
+
 	"github.com/ghodss/yaml"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-func GetResources(loadedConfig models.Config) {
+func GetResources(loadedConfig models.Config, outputDir string) {
 	dynamicClient := GetDynamicClient()
 
 	apiGroupsAndResources := getApiGroupsAndResources(loadedConfig)
@@ -22,7 +23,7 @@ func GetResources(loadedConfig models.Config) {
 	scrapeConfig := make(map[string]interface{})
 	scrapeConfig["namespaces"] = availableNamespaces
 	scrapeConfig["resources"] = apiGroupsAndResources
-	exporter.ExportYaml(scrapeConfig, "scrapeconfig")
+	exporter.ExportYaml(scrapeConfig, "scrapeconfig", outputDir)
 
 	for _, namespaceName := range availableNamespaces {
 		exportedNamespaceData := models.ExportedNamespaceData{
@@ -92,6 +93,6 @@ func GetResources(loadedConfig models.Config) {
 		}
 
 		logrus.Info("Completed. Exporting the data")
-		exporter.ExportYaml(exportedNamespaceData, namespaceName)
+		exporter.ExportYaml(exportedNamespaceData, namespaceName, outputDir)
 	}
 }

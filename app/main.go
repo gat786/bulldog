@@ -6,6 +6,7 @@ import (
 	"gat786/bulldog/config"
 	"gat786/bulldog/exporter"
 	"gat786/bulldog/kubernetes"
+
 	"github.com/joho/godotenv"
 )
 
@@ -18,9 +19,9 @@ func init() {
 }
 
 func main() {
-	OutputDir := exporter.GetOutputDir()
-	logrus.Info("Using Output Directory: ", OutputDir)
+	outputDir := exporter.GetOutputDir()
+	logrus.Info("Using Output Directory: ", outputDir)
 	logrus.Info("Scraping resources from the cluster")
 	config := config.LoadConfig()
-	kubernetes.GetResources(config)
+	kubernetes.GetResources(config, outputDir)
 }
