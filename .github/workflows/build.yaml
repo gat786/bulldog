@@ -7,13 +7,7 @@ name: Build Bulldog
 
 jobs:
   build:
-    strategy:
-      fail-fast: true
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v6
@@ -23,8 +17,32 @@ jobs:
           # Version or version range of Go to use
           go-version: "1.26"
 
-      - name: go build
-        id: go-build
+      - name: Build All Platforms
         working-directory: app/
         run: |
-          go build .
+          # Define targets as "GOOS/GOARCH/LABEL"
+          TARGETS=(
+            "linux/amd64/linux-amd64"
+            "linux/arm64/linux-arm64"
+            "linux/amd64/debian-amd64"
+            "windows/386/windows-x86"
+            "windows/arm64/windows-arm64"
+          )
+
+          mkdir -p dist
+
+          for target in "${TARGETS[@]}"; do
+            # Split the string into variables
+            IFS="/" read -r GOOS GOARCH LABEL <<< "$target"
+
+            # Determine extension
+            EXT=""
+            if [ "$GOOS" = "windows" ]; then EXT=".exe"; fi
+
+            OUTPUT="dist/myapp-${LABEL}${EXT}"
+
+            echo "Building for $LABEL ($GOOS/$GOARCH)..."
+
+            # Execute build with inline env variables
+            GOOS=$GOOS GOARCH=$GOARCH go build -v -o "$OUTPUT" .
+          done
