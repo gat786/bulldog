@@ -39,10 +39,10 @@ jobs:
             EXT=""
             if [ "$GOOS" = "windows" ]; then EXT=".exe"; fi
 
-            OUTPUT="dist/myapp-${LABEL}${EXT}"
+            OUTPUT="dist/bulldog-${LABEL}${EXT}"
 
             echo "Building for $LABEL ($GOOS/$GOARCH)..."
 
             # Execute build with inline env variables
-            GOOS=$GOOS GOARCH=$GOARCH go build -v -o "$OUTPUT" .
+            GOOS=$GOOS GOARCH=$GOARCH go build -o "$OUTPUT" .
           done

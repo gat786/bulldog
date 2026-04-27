@@ -8,6 +8,9 @@ name: Release Bulldog Artifact
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: checkout
         uses: actions/checkout@v6
@@ -40,10 +43,16 @@ jobs:
             EXT=""
             if [ "$GOOS" = "windows" ]; then EXT=".exe"; fi
 
-            OUTPUT="dist/myapp-${LABEL}${EXT}"
+            OUTPUT="dist/bulldog-${LABEL}${EXT}"
 
             echo "Building for $LABEL ($GOOS/$GOARCH)..."
 
             # Execute build with inline env variables
             GOOS=$GOOS GOARCH=$GOARCH go build -v -o "$OUTPUT" .
           done
+
+      - name: gh packages upload
+        id: gh-upload
+        working-directory: app/
+        run: |
+          gh release upload ${{ github.ref }} dist/*
