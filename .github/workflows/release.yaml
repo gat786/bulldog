@@ -3,11 +3,17 @@ on:
     tags:
       - v*
 
-name: Build Bulldog and Release
+name: Release Bulldog Artifact
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
         uses: actions/checkout@v6
