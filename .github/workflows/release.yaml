@@ -49,11 +49,13 @@ jobs:
             echo "Building for $LABEL ($GOOS/$GOARCH)..."
 
             # Execute build with inline env variables
-            GOOS=$GOOS GOARCH=$GOARCH go build -v -o "$OUTPUT" .
+            GOOS=$GOOS GOARCH=$GOARCH go build -o "$OUTPUT" .
           done
 
       - name: gh packages upload
         id: gh-upload
         working-directory: app/
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload ${{ github.ref }} dist/*
+          gh release upload ${{ github.ref_name }} dist/*
