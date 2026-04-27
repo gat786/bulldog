@@ -4,8 +4,14 @@ A simple CLI Golang application which you can use to scrape your kubernetes
 cluster for resources you are looking for.
 
 This tool was built with a goal to quickly take a live snapshot of the resources
-and their contents by querying the kubernetes API Server and storing it in text
-files. This app requires a scrapeconfig file to be provided to it and then uses
+and their contents by querying the Kubernetes API Server and storing it in text
+files. The need for a tool like this arises when you have a lot of kubernetes
+objects which change dynamically over time and for some reasons you may want to
+store the changes that occur on those objects inorder to do analysis of what
+caused the change or how the state of an object changed over time and what caused
+it.
+
+This app requires a scrapeconfig file to be provided to it and then uses
 the default kubeconfig file present on an instance to fetch the specified 
 resources from the cluster which is specified in the kubeconfig file.
 
