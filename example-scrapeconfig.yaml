@@ -1,0 +1,9 @@
+namespaces:
+  - default
+resources:
+  - Group: ""
+    ResourceNames:
+      - pods
+      - serviceaccounts
+    Version: v1
+savefullmanifest: true
