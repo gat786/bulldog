@@ -63,7 +63,9 @@ There are two options as of now,
     and start scraping the resources present on that cluster and saving it as a
     text output in the `exported_data` directory.
 
-| TODO - configure a way to export to a custom user specified directory
+
+> !TODO - configure a way to export to a custom user specified directory
+
 
 2. print-config
   
