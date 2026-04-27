@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Build Bulldog and Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+
+      - name: go build
+        id: go-build
+        run: |
+          go build .
